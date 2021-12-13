@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/api/annotations.proto";
+// the validate rules:
+// https://github.com/envoyproxy/protoc-gen-validate
+import "validate/validate.proto";
+
+option go_package = "blog/api/v1;v1";
+option java_multiple_files = true;
+option java_package = "dev.kratos.api.v1";
+option java_outer_classname = "ApiProtoV1";
+
+// The User service definition.
+service User {
+  rpc CreateUser (CreateUserRequest) returns (CreateUserReply)  {
+        option (google.api.http) = {
+            post: "/v1/createUser"
+            body: "*"
+        };
+    }
+  rpc GetUser (GetUserRequest) returns (CreateUserReply)  {
+    option (google.api.http) = {
+      get: "/v1/getUser"
+    };
+  }
+}
+
+service Article {
+  rpc CreateArticle (CreateArticleRequest) returns (CreateArticleReply)  {
+    option (google.api.http) = {
+      post: "/v1/createArticle"
+      body: "*"
+    };
+  }
+}
+
+service Category {
+  rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryReply)  {
+    option (google.api.http) = {
+      post: "/v1/createCategory"
+      body: "*"
+    };
+  }
+}
+
+message CreateArticleRequest{
+  int64 title = 1;
+  int32 cID =2;
+  string desc = 3;
+  string content = 4;
+  string img = 5;
+}
+
+message CreateArticleReply{
+  string message  = 1;
+}
+
+message CreateCategoryRequest{
+  string message = 1;
+}
+
+message CreateCategoryReply{
+  string message = 1;
+}
+
+
+message ArticleDetailRequest{
+  int32 id = 1 [(validate.rules).int32 = {gt: 0}];
+}
+
+message ArticleDetailReply{
+  int64 id = 1;
+  string title = 2;
+  string content = 3;
+  int32   cateID = 4;
+}
+
+
+message ArticleListRequest {
+  int32 pageSize =1  [(validate.rules).int32 =  {gt: 0}];
+  int32 pageNum =2  [(validate.rules).int32 =  {gt: 0}];
+}
+
+message ArticleListReply {
+  message articleItem {
+      int64 id = 1;
+      string title = 2;
+      string content = 3;
+      int32   cateID = 4;
+  }
+  repeated  articleItem list = 1;
+  int32 total = 2;
+}
+
+// The request message containing the user's name.
+message CreateUserRequest {
+  string Username = 1  [(validate.rules).string = {min_len: 5, max_len: 50}] ;
+  string Password = 2 [(validate.rules).string = {min_len: 5, max_len: 50}] ;
+  int32 Role = 3;
+}
+
+// The response message containing the greetings
+message CreateUserReply {
+  string Message = 1;
+}
+
+// The request message containing the user's name.
+message GetUserRequest {
+  int64 ID = 1  [(validate.rules).int64 = {gt: 0}];
+}
+
+message GetUserReply {
+  string Message = 1;
+}
+
+
