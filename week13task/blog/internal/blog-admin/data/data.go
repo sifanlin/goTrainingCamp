@@ -12,7 +12,7 @@ import (
 )
 
 // ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewUserRepo)
+var ProviderSet = wire.NewSet(NewData, NewUserRepo, NewKafkaProducer, NewMysqlClient)
 
 // Data .
 type Data struct {
@@ -47,9 +47,9 @@ func NewMysqlClient(c *conf.Data) *ent.Client {
 	return client
 }
 
-func NewKafkaConsumer(conf *conf.Data) sarama.Consumer {
+func NewKafkaProducer(conf *conf.Data) sarama.AsyncProducer {
 	c := sarama.NewConfig()
-	p, err := sarama.NewConsumer(conf.Kafka.Address, c)
+	p, err := sarama.NewAsyncProducer(conf.Kafka.Address, c)
 	if err != nil {
 		panic(err)
 	}

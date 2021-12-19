@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"blog/internal/blog-interface/biz"
+	"blog/internal/blog-admin/biz"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/pkg/errors"

@@ -6,10 +6,11 @@ import (
 )
 
 type Article struct {
-	ID      int64
-	title   string
-	content string
-	cateID  int32
+	ID       int64
+	Title    string
+	Content  string
+	CateID   int32
+	ClickNum int64
 }
 
 type ArticleList struct {

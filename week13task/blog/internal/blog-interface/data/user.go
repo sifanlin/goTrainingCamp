@@ -23,14 +23,14 @@ func NewUserRepo(data *Data, logger log.Logger) biz.UserRepo {
 }
 
 func (u *userRepo) CreateUser(ctx context.Context, user *biz.User) error {
-	_, err := u.data.db.User.Create().
+	_, err := u.data.MysqlClient.User.Create().
 		SetCreateTime(time.Now()).SetUserName(user.UserName).
 		SetPassword(user.Password).SetRole(user.Role).Save(ctx)
 	return err
 }
 
 func (u *userRepo) GetUser(ctx context.Context, bizUser *biz.User) (*biz.User, error) {
-	user, err := u.data.db.User.Get(ctx, int(bizUser.ID))
+	user, err := u.data.MysqlClient.User.Get(ctx, int(bizUser.ID))
 	if err != nil {
 		return nil, errors.Wrapf(err, "get user err req userID:%v", bizUser.ID)
 	}

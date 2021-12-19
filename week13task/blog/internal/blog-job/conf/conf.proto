@@ -8,7 +8,6 @@ import "google/protobuf/duration.proto";
 message Bootstrap {
   Server server = 1;
   Data data = 2;
-  Trace trace = 3;
 }
 
 message Server {
@@ -49,15 +48,8 @@ message Data {
     string basicAuthUsername = 6;
     string basicAuthPassword = 7;
   }
-  message Trace {
-    string endpoint = 1;
-  }
   Database database = 1;
   Redis redis = 2;
   Kafka kafka = 3;
   Elastic elastic = 4;
-}
-
-message Trace {
-  string endpoint = 1;
 }

@@ -1,59 +1,39 @@
 package data
 
 import (
-	"context"
 	"fmt"
 
-	"blog/internal/blog-interface/conf"
-	"blog/internal/blog-interface/data/ent"
+	"blog/internal/blog-job/conf"
 
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/gomodule/redigo/redis"
 	"github.com/google/wire"
 	"github.com/olivere/elastic"
 	"github.com/segmentio/kafka-go"
-
-	_ "github.com/go-sql-driver/mysql"
 )
 
-// ProviderSet is data providers.
-var ProviderSet = wire.NewSet(NewData, NewEsInstance, NewUserRepo, NewRedisCli, NewMysqlClient, NewKafkaConsumer)
+// ProviderSet is biz providers.
+var ProviderSet = wire.NewSet(NewData, NewKafkaConsumer, NewEsInstance, NewRedisCli)
 
-// Data .
 type Data struct {
 	Consumer      *kafka.Reader
 	ElasticClient *elastic.Client
 	RedisCli      redis.Conn
-	MysqlClient   *ent.Client
 }
 
-func NewData(redisClient redis.Conn, entCli *ent.Client, consumer *kafka.Reader, client *elastic.Client, logger log.Logger) (*Data, func(), error) {
+func NewData(newRedisCli redis.Conn, consumer *kafka.Reader, client *elastic.Client, logger log.Logger) (*Data, func(), error) {
 	cleanup := func() {
 		defer client.Stop()
 		defer consumer.Close()
-		defer entCli.Close()
-		defer redisClient.Close()
+		defer newRedisCli.Close()
 		log.NewHelper(logger).Info("closing the data resources")
 	}
 	d := &Data{
 		Consumer:      consumer,
 		ElasticClient: client,
-		RedisCli:      redisClient,
-		MysqlClient:   entCli,
+		RedisCli:      newRedisCli,
 	}
 	return d, cleanup, nil
-}
-
-func NewMysqlClient(c *conf.Data) *ent.Client {
-	client, err := ent.Open(c.Database.GetDriver(), c.Database.GetSource())
-	if err != nil {
-		panic(err)
-	}
-	// Run the auto migration tool.
-	if err := client.Schema.Create(context.Background()); err != nil {
-		panic(err)
-	}
-	return client
 }
 
 func NewKafkaConsumer(conf *conf.Data) *kafka.Reader {

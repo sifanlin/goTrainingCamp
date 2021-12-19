@@ -32,7 +32,7 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 
 func (c *userClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserReply, error) {
 	out := new(CreateUserReply)
-	err := c.cc.Invoke(ctx, "/api.v1.User/CreateUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.admin.v1.User/CreateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +41,7 @@ func (c *userClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts
 
 func (c *userClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*CreateUserReply, error) {
 	out := new(CreateUserReply)
-	err := c.cc.Invoke(ctx, "/api.v1.User/GetUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.admin.v1.User/GetUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ func _User_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.v1.User/CreateUser",
+		FullMethod: "/api.admin.v1.User/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).CreateUser(ctx, req.(*CreateUserRequest))
@@ -108,7 +108,7 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.v1.User/GetUser",
+		FullMethod: "/api.admin.v1.User/GetUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServer).GetUser(ctx, req.(*GetUserRequest))
@@ -120,7 +120,7 @@ func _User_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interf
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var User_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.v1.User",
+	ServiceName: "api.admin.v1.User",
 	HandlerType: (*UserServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -133,7 +133,7 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/v1/blog-admin.proto",
+	Metadata: "api/admin/v1/blog-admin.proto",
 }
 
 // ArticleClient is the client API for Article service.
@@ -153,7 +153,7 @@ func NewArticleClient(cc grpc.ClientConnInterface) ArticleClient {
 
 func (c *articleClient) CreateArticle(ctx context.Context, in *CreateArticleRequest, opts ...grpc.CallOption) (*CreateArticleReply, error) {
 	out := new(CreateArticleReply)
-	err := c.cc.Invoke(ctx, "/api.v1.Article/CreateArticle", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.admin.v1.Article/CreateArticle", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -198,7 +198,7 @@ func _Article_CreateArticle_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.v1.Article/CreateArticle",
+		FullMethod: "/api.admin.v1.Article/CreateArticle",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ArticleServer).CreateArticle(ctx, req.(*CreateArticleRequest))
@@ -210,7 +210,7 @@ func _Article_CreateArticle_Handler(srv interface{}, ctx context.Context, dec fu
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Article_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.v1.Article",
+	ServiceName: "api.admin.v1.Article",
 	HandlerType: (*ArticleServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -219,7 +219,7 @@ var Article_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/v1/blog-admin.proto",
+	Metadata: "api/admin/v1/blog-admin.proto",
 }
 
 // CategoryClient is the client API for Category service.
@@ -239,7 +239,7 @@ func NewCategoryClient(cc grpc.ClientConnInterface) CategoryClient {
 
 func (c *categoryClient) CreateCategory(ctx context.Context, in *CreateCategoryRequest, opts ...grpc.CallOption) (*CreateCategoryReply, error) {
 	out := new(CreateCategoryReply)
-	err := c.cc.Invoke(ctx, "/api.v1.Category/CreateCategory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/api.admin.v1.Category/CreateCategory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -284,7 +284,7 @@ func _Category_CreateCategory_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.v1.Category/CreateCategory",
+		FullMethod: "/api.admin.v1.Category/CreateCategory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CategoryServer).CreateCategory(ctx, req.(*CreateCategoryRequest))
@@ -296,7 +296,7 @@ func _Category_CreateCategory_Handler(srv interface{}, ctx context.Context, dec 
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Category_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.v1.Category",
+	ServiceName: "api.admin.v1.Category",
 	HandlerType: (*CategoryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -305,5 +305,5 @@ var Category_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "api/v1/blog-admin.proto",
+	Metadata: "api/admin/v1/blog-admin.proto",
 }
